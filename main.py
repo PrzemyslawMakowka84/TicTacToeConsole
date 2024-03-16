@@ -93,7 +93,7 @@ def play(board_game: list):
         if turn_x:
             x, y = check_variables_input(symbol, board_len)
             if board_game[x-1][y-1] == 'X' or board_game[x-1][y-1] == 'O':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'Y'! Try again!")
+                print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'O'! Try again!")
                 print_board(board_game)
                 continue
             board_game[x-1][y-1] = 'X'
@@ -102,7 +102,7 @@ def play(board_game: list):
         else:
             x, y = check_variables_input(symbol, board_len)
             if board_game[x-1][y-1] == 'X' or board_game[x-1][y-1] == 'O':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'Y'! Try again!")
+                print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'O'! Try again!")
                 print_board(board_game)
                 continue
             board_game[x - 1][y - 1] = 'O'
