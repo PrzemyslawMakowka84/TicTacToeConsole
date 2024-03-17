@@ -17,15 +17,15 @@ def check_if_win(board_game: list):
         elif all(cell == 'O' for cell in [board_game[i][cell] for cell in range(board_len)]):
             return True
         if all(cell == 'X'
- for cell in [board_game[cell][i] for cell in range(board_len)]):
+               for cell in [board_game[cell][i] for cell in range(board_len)]):
             return True
         elif all(cell == 'O'
- for cell in [board_game[cell][i] for cell in range(board_len)]):
+                 for cell in [board_game[cell][i] for cell in range(board_len)]):
             return True
     temp_list = []
     n = 0
     for i in range(board_len):
-        if board_game[i][i] == 'X'or board_game[i][i] == 'O':
+        if board_game[i][i] == 'X' or board_game[i][i] == 'O':
             temp_list.append(board_game[i][i])
             n += 1
 
@@ -42,10 +42,10 @@ def check_if_win(board_game: list):
             n += 1
 
     if all(cell == 'X'
- for cell in temp_list) and n == board_len:
+           for cell in temp_list) and n == board_len:
         return True
     elif all(cell == 'O'
- for cell in temp_list) and n == board_len:
+             for cell in temp_list) and n == board_len:
         return True
     return False
 
@@ -56,8 +56,8 @@ def check_if_draw(board_game: list):
     for i in board_game:
         if_win = check_if_win(board_game)
         if all(cell == 'X'
- or cell == 'O'
- for cell in i) and not if_win:
+               or cell == 'O'
+               for cell in i) and not if_win:
             n += 1
     if n == board_len:
         return True
@@ -70,7 +70,9 @@ def check_variables_input(symbol: str, board_len: int):
     valid_input = False
     while not valid_input:
         try:
-            x, y = input(f'Please enter coordinates(separated by space) for symbol {symbol}(range <1, {board_len}>): ').split(' ')
+            x, y = input(
+                f'Please enter coordinates(separated by space) for symbol {symbol}(range <1, {board_len}>): ').split(
+                ' ')
             x = int(x)
             y = int(y)
             if 0 < x <= board_len and 0 < y <= board_len:
@@ -92,16 +94,16 @@ def play(board_game: list):
     while not if_draw and not if_win:
         if turn_x:
             x, y = check_variables_input(symbol, board_len)
-            if board_game[x-1][y-1] == 'X' or board_game[x-1][y-1] == 'O':
+            if board_game[x - 1][y - 1] == 'X' or board_game[x - 1][y - 1] == 'O':
                 print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'O'! Try again!")
                 print_board(board_game)
                 continue
-            board_game[x-1][y-1] = 'X'
+            board_game[x - 1][y - 1] = 'X'
             symbol = 'O'
             turn_x = False
         else:
             x, y = check_variables_input(symbol, board_len)
-            if board_game[x-1][y-1] == 'X' or board_game[x-1][y-1] == 'O':
+            if board_game[x - 1][y - 1] == 'X' or board_game[x - 1][y - 1] == 'O':
                 print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'O'! Try again!")
                 print_board(board_game)
                 continue
