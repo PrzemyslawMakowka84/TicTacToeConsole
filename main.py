@@ -119,13 +119,14 @@ def play(board_game: list):
         if_win = check_if_win(board_game)
         if_draw = check_if_draw(board_game)
 
-    if turn_x:
+    if turn_x and if_win:
         symbol = 'O'
-
-    else:
+        print(f'Player who played symbol {symbol} is winner! Congratulations!')
+    elif not turn_x and if_win:
         symbol = 'X'
-
-    print(f'Player who played symbol {symbol} is winner! Congratulations!')
+        print(f'Player who played symbol {symbol} is winner! Congratulations!')
+    if if_draw:
+        print(f'This time we have a draw! Thanks you for enjoying!')
 
 
 board = [['*', '*', '*'], ['*', '*', '*'], ['*', '*', '*']]
