@@ -3,7 +3,7 @@ def print_board(board_game: list):
     bord_len = len(board_game)
     print(' ', end='')
     for i in range(bord_len):
-        print(f' {i+1}',end='')
+        print(f' {i + 1}', end='')
     print()
     for i in board_game:
         print(row, end=' ')
@@ -98,8 +98,12 @@ def play(board_game: list):
     while not if_draw and not if_win:
         if turn_x:
             x, y = check_variables_input(symbol, board_len)
-            if board_game[x - 1][y - 1] == 'X' or board_game[x - 1][y - 1] == 'O':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'O'! Try again!")
+            if board_game[x - 1][y - 1] == 'X':
+                print(f"You are trying input symbol {symbol} in the place where is putted 'X'! Try again!")
+                print_board(board_game)
+                continue
+            elif board_game[x - 1][y - 1] == 'O':
+                print(f"You are trying input symbol {symbol} in the place where is putted 'O'! Try again!")
                 print_board(board_game)
                 continue
             board_game[x - 1][y - 1] = 'X'
@@ -107,8 +111,12 @@ def play(board_game: list):
             turn_x = False
         else:
             x, y = check_variables_input(symbol, board_len)
-            if board_game[x - 1][y - 1] == 'X' or board_game[x - 1][y - 1] == 'O':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'X' or 'O'! Try again!")
+            if board_game[x - 1][y - 1] == 'X':
+                print(f"You are trying input symbol {symbol} in the place where is putted 'X'! Try again!")
+                print_board(board_game)
+                continue
+            elif board_game[x - 1][y - 1] == 'O':
+                print(f"You are trying input symbol {symbol} in the place where is putted 'O'! Try again!")
                 print_board(board_game)
                 continue
             board_game[x - 1][y - 1] = 'O'
