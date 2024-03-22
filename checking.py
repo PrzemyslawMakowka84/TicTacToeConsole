@@ -52,6 +52,7 @@ def check_if_draw(board_game: list):
         return True
     return False
 
+
 def check_variables_input(symbol: str, board_len: int):
     x = 0
     y = 0

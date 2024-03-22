@@ -1,4 +1,4 @@
-import print_board
+import printing
 import checking
 
 
@@ -6,41 +6,25 @@ def play(board_game: list):
     board_len = len(board_game)
     turn_x = True
     symbol = 'X'
-
-    if_win = checking.check_if_win(board_game)
-    if_draw = checking.check_if_draw(board_game)
+    if_win = False
+    if_draw = False
     while not if_draw and not if_win:
+        x, y = checking.check_variables_input(symbol, board_len)
+        if board_game[x - 1][y - 1] == 'X' or board_game[x - 1][y - 1] == 'O':
+            putted_symbol = board_game[x - 1][y - 1]
+            print(f"You are trying input symbol {symbol} in the place where is putted '{putted_symbol}'! Try again!")
+            printing.print_board(board_game)
+            continue
+        board_game[x - 1][y - 1] = symbol
         if turn_x:
-            x, y = checking.check_variables_input(symbol, board_len)
-            if board_game[x - 1][y - 1] == 'X':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'X'! Try again!")
-                print_board.print_board(board_game)
-                continue
-            elif board_game[x - 1][y - 1] == 'O':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'O'! Try again!")
-                print_board.print_board(board_game)
-                continue
-            board_game[x - 1][y - 1] = 'X'
-            symbol = 'O'
             turn_x = False
+            symbol = 'O'
         else:
-            x, y = checking.check_variables_input(symbol, board_len)
-            if board_game[x - 1][y - 1] == 'X':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'X'! Try again!")
-                print_board.print_board(board_game)
-                continue
-            elif board_game[x - 1][y - 1] == 'O':
-                print(f"You are trying input symbol {symbol} in the place where is putted 'O'! Try again!")
-                print_board.print_board(board_game)
-                continue
-            board_game[x - 1][y - 1] = 'O'
             turn_x = True
             symbol = 'X'
-
-        print_board.print_board(board_game)
+        printing.print_board(board_game)
         if_win = checking.check_if_win(board_game)
         if_draw = checking.check_if_draw(board_game)
-
     if turn_x and if_win:
         symbol = 'O'
         print(f'Player who played symbol {symbol} is winner! Congratulations!')
@@ -52,5 +36,5 @@ def play(board_game: list):
 
 
 board = [['*', '*', '*'], ['*', '*', '*'], ['*', '*', '*']]
-print_board.print_board(board)
+printing.print_board(board)
 play(board)
