@@ -93,3 +93,13 @@ def coloring_winning_symbols(board_game, row, col, symbol, is_main_diagonal=True
     elif row is None and col is None and not is_main_diagonal:
         for i in range(board_len):
             board_game[i][len(board_game) - 1 - i] = winning_symbol
+
+
+def search_acceptable_fields(playing_board: list):
+    coordinates_list = []
+    board_len = len(playing_board)
+    for i in range(board_len):
+        for j in range(board_len):
+            if playing_board[i][j] == '*':
+                coordinates_list.append([i, j])
+    return coordinates_list

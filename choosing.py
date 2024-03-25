@@ -1,3 +1,5 @@
+
+
 def choose_size_board():
     size = 0
     while 2 >= size or size > 5:
@@ -28,3 +30,14 @@ def choose_size_board():
                         ['*', '*', '*', '*', '*']
                     ]
             return board
+
+
+def choosing_player():
+    answer = input('Do you want play with computer?(y/n): ')
+    while (answer != 'n' or answer != 'y') and not answer.isalpha():
+        answer = input("Please type 'y' or 'n': ")
+    match answer:
+        case 'y':
+            return True
+        case 'n':
+            return False
