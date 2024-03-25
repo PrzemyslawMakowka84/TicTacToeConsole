@@ -5,11 +5,9 @@ def check_if_win(board_game: list):
             return True
         elif all(cell == 'O' for cell in [board_game[i][cell] for cell in range(board_len)]):
             return True
-        if all(cell == 'X'
-               for cell in [board_game[cell][i] for cell in range(board_len)]):
+        if all(cell == 'X' for cell in [board_game[cell][i] for cell in range(board_len)]):
             return True
-        elif all(cell == 'O'
-                 for cell in [board_game[cell][i] for cell in range(board_len)]):
+        elif all(cell == 'O' for cell in [board_game[cell][i] for cell in range(board_len)]):
             return True
     temp_list = []
     n = 0

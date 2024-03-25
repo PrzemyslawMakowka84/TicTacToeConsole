@@ -1,6 +1,6 @@
 import printing
 import checking
-
+import choosing
 
 def play(board_game: list):
     board_len = len(board_game)
@@ -35,6 +35,6 @@ def play(board_game: list):
         print(f'This time we have a draw! Thanks you for enjoying!')
 
 
-board = [['*', '*', '*'], ['*', '*', '*'], ['*', '*', '*']]
+board = choosing.choose_size_board()
 printing.print_board(board)
 play(board)
