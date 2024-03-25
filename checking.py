@@ -1,13 +1,28 @@
+from colorama import Fore, Style
+
 def check_if_win(board_game: list):
     board_len = len(board_game)
+    winning_symbol = ''
     for i in range(0, board_len):
         if all(cell == 'X' for cell in [board_game[i][cell] for cell in range(board_len)]):
+            winning_symbol = f'{Fore.LIGHTRED_EX}X{Style.RESET_ALL}'
+            for cell in range(board_len):
+                board_game[i][cell] = winning_symbol
             return True
         elif all(cell == 'O' for cell in [board_game[i][cell] for cell in range(board_len)]):
+            winning_symbol = f'{Fore.LIGHTRED_EX}O{Style.RESET_ALL}'
+            for cell in range(board_len):
+                board_game[i][cell] = winning_symbol
             return True
         if all(cell == 'X' for cell in [board_game[cell][i] for cell in range(board_len)]):
+            winning_symbol = f'{Fore.LIGHTRED_EX}X{Style.RESET_ALL}'
+            for cell in range(board_len):
+                board_game[cell][i] = winning_symbol
             return True
         elif all(cell == 'O' for cell in [board_game[cell][i] for cell in range(board_len)]):
+            winning_symbol = f'{Fore.LIGHTRED_EX}O{Style.RESET_ALL}'
+            for cell in range(board_len):
+                board_game[cell][i] = winning_symbol
             return True
     temp_list = []
     n = 0
@@ -17,8 +32,14 @@ def check_if_win(board_game: list):
             n += 1
 
     if all(cell == 'X' for cell in temp_list) and n == board_len:
+        winning_symbol = f'{Fore.LIGHTRED_EX}X{Style.RESET_ALL}'
+        for i in range(board_len):
+            board_game[i][i] = winning_symbol
         return True
     elif all(cell == 'O' for cell in temp_list) and n == board_len:
+        winning_symbol = f'{Fore.LIGHTRED_EX}O{Style.RESET_ALL}'
+        for i in range(board_len):
+            board_game[i][i] = winning_symbol
         return True
 
     n = 0
@@ -28,11 +49,15 @@ def check_if_win(board_game: list):
             temp_list.append(board_game[i][(board_len - 1) - i])
             n += 1
 
-    if all(cell == 'X'
-           for cell in temp_list) and n == board_len:
+    if all(cell == 'X' for cell in temp_list) and n == board_len:
+        winning_symbol = f'{Fore.LIGHTRED_EX}X{Style.RESET_ALL}'
+        for i in range(board_len):
+            board_game[i][(board_len - 1) - i] = winning_symbol
         return True
-    elif all(cell == 'O'
-             for cell in temp_list) and n == board_len:
+    elif all(cell == 'O' for cell in temp_list) and n == board_len:
+        winning_symbol = f'{Fore.LIGHTRED_EX}O{Style.RESET_ALL}'
+        for i in range(board_len):
+            board_game[i][(board_len - 1) - i] = winning_symbol
         return True
     return False
 

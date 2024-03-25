@@ -22,9 +22,9 @@ def play(board_game: list):
         else:
             turn_x = True
             symbol = 'X'
-        printing.print_board(board_game)
         if_win = checking.check_if_win(board_game)
         if_draw = checking.check_if_draw(board_game)
+        printing.print_board(board_game)
     if turn_x and if_win:
         symbol = 'O'
         print(f'Player who played symbol {symbol} is winner! Congratulations!')
