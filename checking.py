@@ -4,17 +4,17 @@ from colorama import Fore, Style
 def check_if_win(board_game: list, symbol: str):
     board_len = len(board_game)
     for i in range(0, board_len):
-        if all(cell == f'{symbol}' for cell in [board_game[i][cell] for cell in range(board_len)]):
-            coloring_winning_symbols(board_game, i, None, f'{symbol}')
+        if all(cell == symbol for cell in [board_game[i][cell] for cell in range(board_len)]):
+            coloring_winning_symbols(board_game, i, None, symbol)
             return True
-        elif all(cell == f'{symbol}' for cell in [board_game[cell][i] for cell in range(board_len)]):
-            coloring_winning_symbols(board_game, None, i, f'{symbol}')
+        elif all(cell == symbol for cell in [board_game[cell][i] for cell in range(board_len)]):
+            coloring_winning_symbols(board_game, None, i, symbol)
             return True
-        elif all(cell == f'{symbol}' for cell in [board_game[cell][cell] for cell in range(board_len)]):
-            coloring_winning_symbols(board_game, None, None, f'{symbol}', True)
+        elif all(cell == symbol for cell in [board_game[cell][cell] for cell in range(board_len)]):
+            coloring_winning_symbols(board_game, None, None, symbol, True)
             return True
-        elif all(cell == f'{symbol}' for cell in [board_game[i][(board_len - 1) - i] for i in range(board_len)]):
-            coloring_winning_symbols(board_game, None, None, f'{symbol}', False)
+        elif all(cell == symbol for cell in [board_game[i][(board_len - 1) - i] for i in range(board_len)]):
+            coloring_winning_symbols(board_game, None, None, symbol, False)
             return True
     return False
 
