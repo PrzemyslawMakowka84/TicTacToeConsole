@@ -1,10 +1,12 @@
 
 def choose_size_board():
     size = 0
-    while 2 >= size or size > 5:
+    lower_size = 2
+    upper_size = 5
+    while lower_size >= size or size > upper_size:
         try:
             size = int(input('Enter a board size from range<3, 5>: '))
-            if 2 >= size or size > 5:
+            if lower_size >= size or size > upper_size:
                 print('You are trying to enter size from no acceptable range! Try again!')
         except ValueError:
             print('You entered not acceptable characters! Try again!')
