@@ -1,5 +1,4 @@
 
-
 def choose_size_board():
     size = 0
     while 2 >= size or size > 5:
@@ -11,7 +10,7 @@ def choose_size_board():
             print('You entered not acceptable characters! Try again!')
     match size:
         case 3:
-            board = [['*', '*', '*'], ['*', '*', '*'],['*', '*', '*']]
+            board = [['*', '*', '*'], ['*', '*', '*'] ,['*', '*', '*']]
             return board
         case 4:
             board = [
@@ -34,7 +33,7 @@ def choose_size_board():
 
 def choosing_player():
     answer = input('Do you want play with computer?(y/n): ')
-    while (answer != 'n' or answer != 'y') and not answer.isalpha():
+    while not (answer in ['y', 'n']) or (answer.isalpha() and len(answer) > 1):
         answer = input("Please type 'y' or 'n': ")
     match answer:
         case 'y':
