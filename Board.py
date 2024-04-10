@@ -3,10 +3,6 @@ from random import randint
 
 
 class Board:
-    __board = []
-    __len_of_board = 0
-    __playing_with_computer = False
-
     def __init__(self, size: int, play_with_computer):
         self.__playing_with_computer = play_with_computer
         match size:
@@ -37,11 +33,8 @@ class Board:
         for i in range(self.__len_of_board):
             print(f' {i + 1}', end='')
         print()
-        for i in self.__board:
-            print(row, end=' ')
-            for j in i:
-                print(j, end=' ')
-            print()
+        for row_board in self.__board:
+            print(row, ' '.join(row_board))
             row += 1
 
     def play(self, playing_with_computer=False):
@@ -51,7 +44,8 @@ class Board:
         if_win = False
         if_draw = False
         self.__print_board()
-        while not if_draw and not if_win:
+        play_longer = True
+        while play_longer and not (if_draw and not if_win):
             if turn_x or (turn_o != self.__playing_with_computer):
                 x, y = self.__check_variables_input(symbol)
                 if self.__board[x - 1][y - 1] == 'X' or self.__board[x - 1][y - 1] == 'O':
@@ -65,7 +59,7 @@ class Board:
                 if if_win:
                     self.__print_board()
                     print(f'Player who played symbol {symbol} is winner! Congratulations!')
-                    break
+                    play_longer = False
                 if turn_x:
                     turn_x = False
                     turn_o = True
@@ -82,7 +76,7 @@ class Board:
                 if if_win:
                     self.__print_board()
                     print(f'Player who played symbol {symbol} is winner! Congratulations!')
-                    break
+                    play_longer = False
                 turn_x = True
                 turn_o = False
                 symbol = 'X'
@@ -90,23 +84,6 @@ class Board:
             self.__print_board()
         if if_draw:
             print(f'This time we have a draw! Thanks you for enjoying!')
-
-    def check_if_win(self, symbol: str):
-        board_len = len(self.__board)
-        for i in range(0, board_len):
-            if all(cell == symbol for cell in [self.__board[i][cell] for cell in range(board_len)]):
-                self.__coloring_winning_symbols(i, None, symbol)
-                return True
-            elif all(cell == symbol for cell in [self.__board[cell][i] for cell in range(board_len)]):
-                self.__coloring_winning_symbols(None, i, symbol)
-                return True
-            elif all(cell == symbol for cell in [self.__board[cell][cell] for cell in range(board_len)]):
-                self.__coloring_winning_symbols(None, None, symbol, True)
-                return True
-            elif all(cell == symbol for cell in [self.__board[i][(board_len - 1) - i] for i in range(board_len)]):
-                self.__coloring_winning_symbols(None, None, symbol, False)
-                return True
-        return False
 
     def __coloring_winning_symbols(self, row, col, symbol, is_main_diagonal=True):
         winning_symbol = f'{Fore.LIGHTRED_EX}{symbol}{Style.RESET_ALL}'
