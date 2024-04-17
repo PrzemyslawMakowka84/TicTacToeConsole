@@ -3,8 +3,10 @@ from random import randint
 
 
 class Board:
-    def __init__(self, size: int, play_with_computer):
-        self.__playing_with_computer = play_with_computer
+    def __init__(self, size: int):
+        self.__playing_with_computer = Board.__choosing_play_with_computer()
+        if self.__playing_with_computer:
+            self.__symbol_play_human = Board.__choosing_play_symbol()
         match size:
             case 3:
                 self.__len_of_board = 3
@@ -37,7 +39,7 @@ class Board:
             print(row, ' '.join(row_board))
             row += 1
 
-    def play(self, playing_with_computer=False):
+    def play(self):
         turn_x = True
         turn_o = False
         symbol = 'X'
@@ -46,12 +48,13 @@ class Board:
         self.__print_board()
         play_longer = True
         while play_longer and not (if_draw and not if_win):
-            if turn_x or (turn_o != self.__playing_with_computer):
+            if turn_x and self.__symbol_play_human == 'X':
                 x, y = self.__check_variables_input(symbol)
                 if self.__board[x - 1][y - 1] == 'X' or self.__board[x - 1][y - 1] == 'O':
                     putted_symbol = self.__board[x - 1][y - 1]
                     print(
-                        f"You are trying input symbol {symbol} in the place where is putted '{putted_symbol}'! Try again!")
+                        f"You are trying input symbol {symbol} in the place where is putted '{putted_symbol}'! "
+                        f"Try again!")
                     self.__print_board()
                     continue
                 self.__board[x - 1][y - 1] = symbol
@@ -60,6 +63,7 @@ class Board:
                     self.__print_board()
                     print(f'Player who played symbol {symbol} is winner! Congratulations!')
                     play_longer = False
+                    continue
                 if turn_x:
                     turn_x = False
                     turn_o = True
@@ -68,7 +72,31 @@ class Board:
                     turn_x = True
                     turn_o = False
                     symbol = 'X'
-            elif self.__playing_with_computer and turn_o:
+            elif turn_o and self.__symbol_play_human == 'O':
+                x, y = self.__check_variables_input(symbol)
+                if self.__board[x - 1][y - 1] == 'X' or self.__board[x - 1][y - 1] == 'O':
+                    putted_symbol = self.__board[x - 1][y - 1]
+                    print(
+                        f"You are trying input symbol {symbol} in the place where is putted '{putted_symbol}'! "
+                        f"Try again!")
+                    self.__print_board()
+                    continue
+                self.__board[x - 1][y - 1] = symbol
+                if_win = self.__check_if_win(symbol)
+                if if_win:
+                    self.__print_board()
+                    print(f'Player who played symbol {symbol} is winner! Congratulations!')
+                    play_longer = False
+                    continue
+                if turn_x:
+                    turn_x = False
+                    turn_o = True
+                    symbol = 'O'
+                elif turn_o:
+                    turn_x = True
+                    turn_o = False
+                    symbol = 'X'
+            elif turn_o and (self.__playing_with_computer and self.__symbol_play_human != 'X'):
                 coordinate_fields = self.__search_acceptable_fields()
                 rand = randint(0, len(coordinate_fields) - 1)
                 self.__board[coordinate_fields[rand][0]][coordinate_fields[rand][1]] = 'O'
@@ -77,9 +105,49 @@ class Board:
                     self.__print_board()
                     print(f'Player who played symbol {symbol} is winner! Congratulations!')
                     play_longer = False
+                    continue
                 turn_x = True
                 turn_o = False
                 symbol = 'X'
+            elif turn_o and (self.__playing_with_computer and self.__symbol_play_human != 'O'):
+                coordinate_fields = self.__search_acceptable_fields()
+                rand = randint(0, len(coordinate_fields) - 1)
+                self.__board[coordinate_fields[rand][0]][coordinate_fields[rand][1]] = 'O'
+                if_win = self.__check_if_win(symbol)
+                if if_win:
+                    self.__print_board()
+                    print(f'Player who played symbol {symbol} is winner! Congratulations!')
+                    play_longer = False
+                    continue
+                turn_x = True
+                turn_o = False
+                symbol = 'X'
+            elif turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'O'):
+                coordinate_fields = self.__search_acceptable_fields()
+                rand = randint(0, len(coordinate_fields) - 1)
+                self.__board[coordinate_fields[rand][0]][coordinate_fields[rand][1]] = 'X'
+                if_win = self.__check_if_win(symbol)
+                if if_win:
+                    self.__print_board()
+                    print(f'Player who played symbol {symbol} is winner! Congratulations!')
+                    play_longer = False
+                    continue
+                turn_x = False
+                turn_o = True
+                symbol = 'O'
+            elif turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'X'):
+                coordinate_fields = self.__search_acceptable_fields()
+                rand = randint(0, len(coordinate_fields) - 1)
+                self.__board[coordinate_fields[rand][0]][coordinate_fields[rand][1]] = 'X'
+                if_win = self.__check_if_win(symbol)
+                if if_win:
+                    self.__print_board()
+                    print(f'Player who played symbol {symbol} is winner! Congratulations!')
+                    play_longer = False
+                    continue
+                turn_x = False
+                turn_o = True
+                symbol = 'O'
             if_draw = self.__check_if_draw(symbol)
             self.__print_board()
         if if_draw:
@@ -132,42 +200,61 @@ class Board:
     def __check_variables_input(self, symbol: str):
         x = 0
         y = 0
-        valid_input = False
-        while not valid_input:
+        valid_input_not_clear = True
+        while valid_input_not_clear:
             try:
-                x, y = (input
-                    (
-                    f'Please enter coordinates(separated by space) for symbol {symbol}(range <1, {self.__len_of_board}>): ').split(
-                    " "))
-                x = int(x)
-                y = int(y)
-                if (0 < x <= self.__len_of_board) and (0 < y <= self.__len_of_board):
-                    valid_input = True
+                x, y = input(f'Please enter coordinates(separated by space) '
+                             f'for symbol {symbol}(range <1, {self.__len_of_board}>): ').split(" ")
+                if str.isdigit(x) and str.isdigit(y):
+                    x = int(x)
+                    y = int(y)
+                    if (0 < x <= self.__len_of_board) and (0 < y <= self.__len_of_board):
+                        valid_input_not_clear = False
+                    else:
+                        print(f'Coordinate x or y are out of range! Try again!')
                 else:
-                    print(f'Coordinate x or y are out of range! Try again!')
+                    print(f'You are inputted characters instead of numbers! Try again!')
             except ValueError:
                 print('You are trying input impermissible character(s)! Try again!')
+            if valid_input_not_clear:
+                self.__print_board()
         return x, y
 
     def __search_acceptable_fields(self):
         coordinates_list = []
-        board_len = len(self.__board)
-        for i in range(board_len):
-            for j in range(board_len):
+        for i in range(self.__len_of_board):
+            for j in range(self.__len_of_board):
                 if self.__board[i][j] == '*':
                     coordinates_list.append([i, j])
         return coordinates_list
 
     @staticmethod
-    def choosing_player():
-        answer = input('Do you want play with computer?(y/n): ')
-        while not (answer in ['y', 'n']) or (answer.isalpha() and len(answer) > 1):
-            answer = input("Please type 'y' or 'n': ")
-        match answer:
-            case 'y':
-                return True
-            case 'n':
-                return False
+    def __choosing_play_with_computer():
+        return Board.__helper_chose(
+            "Do you want play with computer?(y/n): ",
+            "Please type 'y' or 'n': ",
+            "y",
+            "n"
+        )
+
+    @staticmethod
+    def __choosing_play_symbol():
+        return Board.__helper_chose(
+            "With symbol do you want to play('X' or 'O'): ",
+            "Please type 'X', or 'O': ",
+            "X",
+            "O"
+        )
+
+    @staticmethod
+    def __helper_chose(message1: str, message2: str, symbol1: str, symbol2: str):
+        answer = input(message1)
+        while not (answer in [f'{symbol1}', f'{symbol2}']) and (len(answer) >= 1):
+            answer = input(message2)
+        if symbol1 in ('X', 'Y'):
+            return answer
+        else:
+            return True if answer == 'y' else False
 
     @staticmethod
     def choose_size_board():
