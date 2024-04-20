@@ -6,27 +6,11 @@ class Board:
     def __init__(self, size: int):
         self.__playing_with_computer = Board.__choosing_play_with_computer()
         self.__symbol_play_human = self.__choosing_play_symbol()
-        match size:
-            case 3:
-                self.__len_of_board = 3
-                self.__board = [['*', '*', '*'], ['*', '*', '*'], ['*', '*', '*']]
-            case 4:
-                self.__len_of_board = 4
-                self.__board = [
-                    ['*', '*', '*', '*'],
-                    ['*', '*', '*', '*'],
-                    ['*', '*', '*', '*'],
-                    ['*', '*', '*', '*']
-                ]
-            case 5:
-                self.__len_of_board = 5
-                self.__board = [
-                    ['*', '*', '*', '*', '*'],
-                    ['*', '*', '*', '*', '*'],
-                    ['*', '*', '*', '*', '*'],
-                    ['*', '*', '*', '*', '*'],
-                    ['*', '*', '*', '*', '*']
-                ]
+        self.__len_of_board = size
+        self.__board = []
+        for i in range(self.__len_of_board):
+            row = ['*' for _ in range(self.__len_of_board)]
+            self.__board.append(row)
 
     def __print_board(self):
         row = 1
