@@ -27,93 +27,53 @@ class Board:
         symbol = 'X'
         if_win = False
         if_draw = False
-        # self.__print_board()
-        play_longer = True
-        while play_longer and not (if_draw and not if_win):
+        while not if_draw and not if_win:
             if turn_x and self.__symbol_play_human in ['X', None]:
-                x, y = self.__check_variables_input(symbol)
-                if self.__checked_is_input_coordinates_ok(symbol, x, y):
-                    continue
-                self.__board[x - 1][y - 1] = symbol
-                if_win = self.__check_if_win(symbol)
-                if if_win:
-                    print(f'Player who played symbol {symbol} is winner! Congratulations!')
-                    play_longer = False
-                    continue
-                if turn_x:
-                    turn_x = False
-                    symbol = 'O'
-                else:
-                    turn_x = True
-                    symbol = 'X'
+                self.__input_correct_symbol(symbol)
             elif not turn_x and self.__symbol_play_human in ['O', None]:
-                x, y = self.__check_variables_input(symbol)
-                if self.__checked_is_input_coordinates_ok(symbol, x, y):
-                    continue
-                self.__board[x - 1][y - 1] = symbol
-                if_win = self.__check_if_win(symbol)
-                if if_win:
-                    print(f'Player who played symbol {symbol} is winner! Congratulations!')
-                    play_longer = False
-                    continue
-                if turn_x:
-                    turn_x = False
-                    symbol = 'O'
-                else:
-                    turn_x = True
-                    symbol = 'X'
+                self.__input_correct_symbol(symbol)
             elif not turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'X'):
-                play_longer = self.__computer_playing(symbol)
-                if not play_longer:
-                    continue
-                turn_x = True
-                symbol = 'X'
+                self.__computer_playing(symbol)
             elif not turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'O'):
-                play_longer = self.__computer_playing(symbol)
-                if not play_longer:
-                    continue
-                turn_x = True
-                symbol = 'X'
+                self.__computer_playing(symbol)
             elif turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'O'):
-                play_longer = self.__computer_playing(symbol)
-                if not play_longer:
-                    continue
-                turn_x = False
-                symbol = 'O'
+                self.__computer_playing(symbol)
             elif turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'X'):
-                play_longer = self.__computer_playing(symbol)
-                if not play_longer:
-                    continue
-                turn_x = False
-                symbol = 'O'
+                self.__computer_playing(symbol)
+            if_win = self.__check_if_win(symbol)
             if_draw = self.__check_if_draw(symbol)
-        self.__print_board()
-        if if_draw:
-            print(f'This time we have a draw! Thanks you for enjoying!')
+            if if_win:
+                self.__print_board()
+                print(f'Player who played symbol {symbol} is winner! Congratulations!')
+            if if_draw:
+                self.__print_board()
+                print(f'This time we have a draw! Thanks you for enjoying!')
+            turn_x, symbol = Board.__switch_turn(turn_x)
+
+    @staticmethod
+    def __switch_turn(turn_x):
+        return (False, 'O') if turn_x else (True, 'X')
+
+    def __input_correct_symbol(self, symbol: str):
+        x, y = self.__checked_is_not_input_coordinates_ok(symbol)
+        self.__board[x - 1][y - 1] = symbol
+
 
     def __computer_playing(self, symbol):
         coordinate_fields = self.__search_acceptable_fields()
         rand = randint(0, len(coordinate_fields) - 1)
         self.__board[coordinate_fields[rand][0]][coordinate_fields[rand][1]] = symbol
-        if_win = self.__check_if_win(symbol)
-        if if_win:
-            self.__print_board()
-            print(f'Player who played symbol {symbol} is winner! Congratulations!')
-            play_longer = False
-            return play_longer
-        else:
-            play_longer = True
-            return play_longer
 
-    def __checked_is_input_coordinates_ok(self, symbol, x, y):
-        if self.__board[x - 1][y - 1] == 'X' or self.__board[x - 1][y - 1] == 'O':
+
+    def __checked_is_not_input_coordinates_ok(self, symbol):
+        x, y = self.__check_variables_input(symbol)
+        while self.__board[x - 1][y - 1] == 'X' or self.__board[x - 1][y - 1] == 'O':
             putted_symbol = self.__board[x - 1][y - 1]
             print(
                 f"You are trying input symbol {symbol} in the place where is putted '{putted_symbol}'! "
                 f"Try again!")
-            self.__print_board()
-            return True
-        return False
+            x, y = self.__check_variables_input(symbol)
+        return x, y
 
     def __coloring_winning_symbols(self, row, col, symbol, is_main_diagonal=True):
         winning_symbol = f'{Fore.LIGHTRED_EX}{symbol}{Style.RESET_ALL}'
@@ -179,8 +139,6 @@ class Board:
                     print(f'You are inputted characters instead of numbers! Try again!')
             except ValueError:
                 print('You are trying input impermissible character(s)! Try again!')
-            # if valid_input_not_clear:
-            #     self.__print_board()
         return x, y
 
     def __search_acceptable_fields(self):
