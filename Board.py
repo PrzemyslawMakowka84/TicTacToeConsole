@@ -28,9 +28,9 @@ class Board:
         if_win = False
         if_draw = False
         while not if_draw and not if_win:
-            if turn_x and self.__symbol_play_human in ['X', None]:
+            if turn_x and self.__symbol_play_human in ('X', None):
                 self.__input_correct_symbol(symbol)
-            elif not turn_x and self.__symbol_play_human in ['O', None]:
+            elif not turn_x and self.__symbol_play_human in ('O', None):
                 self.__input_correct_symbol(symbol)
             elif not turn_x and (self.__playing_with_computer and self.__symbol_play_human != 'X'):
                 self.__computer_playing(symbol)
@@ -58,12 +58,10 @@ class Board:
         x, y = self.__checked_is_not_input_coordinates_ok(symbol)
         self.__board[x - 1][y - 1] = symbol
 
-
     def __computer_playing(self, symbol):
         coordinate_fields = self.__search_acceptable_fields()
         rand = randint(0, len(coordinate_fields) - 1)
         self.__board[coordinate_fields[rand][0]][coordinate_fields[rand][1]] = symbol
-
 
     def __checked_is_not_input_coordinates_ok(self, symbol):
         x, y = self.__check_variables_input(symbol)
@@ -178,7 +176,6 @@ class Board:
             return answer
         else:
             return answer == 'y'
-
 
     @staticmethod
     def choose_size_board():
