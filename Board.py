@@ -4,13 +4,29 @@ from random import randint
 
 class Board:
     def __init__(self, size: int):
+        self.__board = []
         self.__playing_with_computer = Board.__choosing_play_with_computer()
         self.__symbol_play_human = self.__choosing_play_symbol()
-        self.__len_of_board = size
-        self.__board = []
+        self._board = size
+
+    @property
+    def _board(self):
+        return self.__board
+
+    @_board.setter
+    def _board(self, size):
+        self._len_of_board = size
         for i in range(self.__len_of_board):
             row = ['*' for _ in range(self.__len_of_board)]
             self.__board.append(row)
+
+    @property
+    def _len_of_board(self):
+        return self.__len_of_board
+
+    @_len_of_board.setter
+    def _len_of_board(self, value):
+        self.__len_of_board = value
 
     def __print_board(self):
         row = 1
